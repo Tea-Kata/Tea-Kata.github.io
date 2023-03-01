@@ -1,0 +1,51 @@
+<!-- About import maps, see the Three.js official docs: -->
+<!-- https://threejs.org/docs/#manual/en/introduction/Installation -->
+<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.148.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.148.0/examples/jsm/",
+      "@pixiv/three-vrm": "three-vrm.module.js"
+    }
+  }
+</script>
+
+<script type="module">
+  import * as THREE from 'three';
+  import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+  import { VRMLoaderPlugin } from '@pixiv/three-vrm';
+
+  const scene = new THREE.Scene();
+
+  const loader = new GLTFLoader();
+
+  // Install GLTFLoader plugin
+  loader.register((parser) => {
+    return new VRMLoaderPlugin(parser);
+  });
+
+  loader.load(
+    // URL of the VRM you want to load
+    '/testing.vrm',
+
+    // called when the resource is loaded
+    (gltf) => {
+      // retrieve a VRM instance from gltf
+      const vrm = gltf.userData.vrm;
+
+      // add the loaded vrm to the scene
+      scene.add(vrm.scene);
+
+      // deal with vrm features
+      console.log(vrm);
+    },
+
+    // called while loading is progressing
+    (progress) => console.log('データ読み込み中...', 100.0 * (progress.loaded / progress.total), '%'),
+
+    // called when loading has errors
+    (error) => console.error(error),
+  );
+</script>
