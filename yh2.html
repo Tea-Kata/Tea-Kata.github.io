@@ -19,44 +19,7 @@
     }
   }
 </script>
- window.addEventListener('DOMContentLoaded', init);
 
-      function init() {
-        
-        const width = 1000;
-        const height = 1000;
-
-        
-        const canvasElement = document.querySelector('#myCanvas');
-        const renderer = new THREE.WebGLRenderer({
-          canvas: canvasElement,
-        });
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(width, height);
-
-        
-        const scene = new THREE.Scene();
-
-        
-        const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 10000);
-        
-        camera.position.set(2, 2, 2);
-
-        
-        const controls = new THREE.OrbitControls(camera, canvasElement);
-        controls.target.set(0, 0, 0);
-        controls.update();
-
-       
-        const directionalLight = new THREE.DirectionalLight(0xffffff);
-        directionalLight.position.set(1, 1, 1);
-        scene.add(directionalLight);
-      
-        const ambientLight = new THREE.AmbientLight(0xffffff);
-        scene.add(ambientLight);
-        
-        const backgroundTexture  = new THREE.TextureLoader().load("./pic.png");
-        scene.background = backgroundTexture;
 <script type="module">
   import * as THREE from 'three';
   import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
